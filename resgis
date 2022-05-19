@@ -1,0 +1,77 @@
+
+
+                <?php
+                if (isset($_GET['submit'])) 
+                    {
+                    $member_username = $_GET['member_username'];
+                    $member_password = $_GET['member_password'];
+                    $ttl_id          = $_GET['ttl_id'];
+                    $member_fname    = $_GET['member_fname'];
+                    $member_lname    = $_GET['member_lname'];
+                    $member_email    = $_GET['member_email'];
+                    $member_tel      = $_GET['member_tel'];
+                  
+
+
+                    $sql = "insert into member"
+                    . "values (null,'$member_username','$member_password','$ttl_id','$member_fname','$member_lname','$member_email','$member_tel')";
+                    include './connent.php';
+                   
+                    echo "<meta http-equiv='refresh' content='2; URL=index.php'>";
+                    mysqli_query($conn,$sql);
+                    mysqli_close($conn);
+                } else {
+                    ?>
+
+
+
+                   
+                <form  role="form" name="member_username" action="<?php echo $_SERVER['PHP_SELF']; ?>" >
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="member_username"  name="member_username"  aria-describedby="Username" placeholder="Username">
+                    </div>
+                    <div class="form-group">
+                        <input type="password" class="form-control" id="member_password" name="member_password"  placeholder="Password">
+                    </div>
+                       
+          
+                    <div class="form-group">
+                    <div class="form-inline">                 
+                            <select class="form-control" id="ttl_id" name="ttl_id">
+                                <?php
+                                include 'connent.php';
+                                $sql = 'SELECT * FROM ttl_anme';
+                                $result = mysqli_query($conn, $sql);
+                                while (($row = mysqli_fetch_array($result, MYSQLI_ASSOC)) != NULL) {
+                                    echo '<option value=';
+                                    echo '"' . $row['ttl_id'] . '">';
+                                    echo $row['ttl_name'];
+                                    echo '</option>';
+                                }
+                                mysqli_free_result($result);
+                                mysqli_close($conn);
+                                ?>
+                            </select>                          
+                        
+                        <input type="text" class="form-control" id="member_fname" name="member_fname" placeholder="ชื่อ" style="width: 334px;">
+                        <input type="text" class="form-control" id="member_lname" name="member_lname" placeholder="สกุล" style="width: 333px;">                       
+                    </div>
+                    </div>
+                    
+                    
+                     <div class="form-group">
+                         <input type="email" class="form-control" id="member_email" name="member_email" placeholder="อีเมล">
+                    </div> 
+                    
+                     <div class="form-group">
+                         <input type="text" class="form-control" id="member_tel" name="member_tel" placeholder="เบอร์โทร">
+                    </div>
+                       
+                           <input type="submit" name="submit"  class="btn btn-danger" >
+                      
+                    
+                </form>
+                    <?php
+                }
+                ?>   
+   
